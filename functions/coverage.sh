@@ -7,7 +7,7 @@
 #
 function drupal_ti_ensure_simpletest_coverage_tools() {
   # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; return; fi
+  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
 	# This function is re-entrant.
 	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-tools-for-simpletest-coverage-installed" ]
@@ -52,7 +52,7 @@ function drupal_ti_simpletest_coverage_in_scope() {
 #
 function drupal_ti_simpletest_coverage_install_module() {
   # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; return; fi
+  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   drush pm-uninstall $DRUPAL_TI_MODULE_NAME -y
   cp -R $DRUPAL_TI_TMP_MODULE_PATH DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME
@@ -64,7 +64,7 @@ function drupal_ti_simpletest_coverage_install_module() {
 #
 function drupal_ti_simpletest_coverage_start() {
   # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; return; fi
+  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   # Re-install the module to make sure it's in the right place.
   drupal_ti_simpletest_coverage_install_module
@@ -94,7 +94,7 @@ function drupal_ti_simpletest_coverage_start() {
 
 function drupal_ti_simpletest_coverage_report() {
   # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; return; fi
+  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
   cd "$DRUPAL_TI_DRUPAL_DIR"
