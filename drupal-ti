@@ -76,6 +76,7 @@ do
 	for SCRIPT_DIR in $DRUPAL_TI_SCRIPT_DIRS
 	do
 		SCRIPT="$SCRIPT_DIR/runners/$RUNNER/$CMD.sh"
+		echo "Got $SCRIPT"
 		if [ -x "$SCRIPT" ]
 		then
 			# Loads the environment, then includes the script.

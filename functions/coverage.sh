@@ -11,18 +11,20 @@ function drupal_ti_ensure_simpletest_coverage_tools() {
 
 	# This function is re-entrant.
 	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-tools-for-simpletest-coverage-installed" ]
-then
+	then
 		return
 	fi
 
-  echo "cping $TRAVIS_BUILD_DIR/$TRAVIS_REPO_SLUG to $HOME/$DRUPAL_TI_MODULE_NAME"
-  cp -R $TRAVIS_BUILD_DIR/$TRAVIS_REPO_SLUG "$HOME/$DRUPAL_TI_MODULE_NAME"
+  export DRUPAL_TI_SIMPLETEST_PATH="$TRAVIS_BUILD_DIR/lib/simpletest"
+  export DRUPAL_TI_TMP_MODULE_PATH="$HOME/$DRUPAL_TI_MODULE_NAME"
+
+  cp -R $TRAVIS_BUILD_DIR $DRUPAL_TI_TMP_MODULE_PATH
 
   # In order to analyze the coverage, we need xdebug.
   drupal_ti_apt_get install php5-xdebug
 
   # Download simpletest and include it in PHP.
-  git clone https://github.com/simpletest/simpletest.git $"$TRAVIS_BUILD_DIR/lib/simpletest"
+  git clone https://github.com/simpletest/simpletest.git $DRUPAL_TI_SIMPLETEST_PATH
   php $DRUPAL_TI_SCRIPT_DIR/utility/add_simpletest_to_include_path.php
 
   touch "$TRAVIS_BUILD_DIR/../drupal_ti-tools-for-simpletest-coverage-installed"
@@ -53,8 +55,8 @@ function drupal_ti_simpletest_coverage_install_module() {
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   drush pm-uninstall $DRUPAL_TI_MODULE_NAME -y
-  echo "CPing $HOME/$DRUPAL_TI_MODULE_NAME to $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
-  cp -R "$HOME/$DRUPAL_TI_MODULE_NAME" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
+  echo "CPing $DRUPAL_TI_TMP_MODULE_PATH to $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
+  cp -R "$DRUPAL_TI_TMP_MODULE_PATH" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   drush en $DRUPAL_TI_MODULE_NAME -y
 }
 
@@ -83,7 +85,7 @@ function drupal_ti_simpletest_coverage_start() {
   git apply -v $TRAVIS_BUILD_DIR/lib/include-simpletest-in-script.patch
 
   # Start analyzing the simpletest coverage
-  php $"$TRAVIS_BUILD_DIR/lib/simpletest"/extensions/coverage/bin/php-coverage-open.php \
+  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$' \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.inc$' \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.module$' \
@@ -99,7 +101,7 @@ function drupal_ti_simpletest_coverage_report() {
   cd "$DRUPAL_TI_DRUPAL_DIR"
 
   # Stop the coveragy analyzer tool.
-  php $"$TRAVIS_BUILD_DIR/lib/simpletest"/extensions/coverage/bin/php-coverage-close.php
+  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
 
   # Ensure that the reports branch exists.
   drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
@@ -111,7 +113,7 @@ function drupal_ti_simpletest_coverage_report() {
   cd "$DRUPAL_TI_DRUPAL_DIR"
 
   # Generate the code coverage report
-  php $"$TRAVIS_BUILD_DIR/lib/simpletest"/extensions/coverage/bin/php-coverage-report.php
+  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-report.php
   cd coverage-report/
   drupal_ci_git_add_credentials
 

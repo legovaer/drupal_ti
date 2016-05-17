@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e $DRUPAL_TI_DEBUG
+
 # Check wether code coverage is in scope
 drupal_ti_simpletest_coverage_in_scope
 
