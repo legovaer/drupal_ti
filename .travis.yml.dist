@@ -92,7 +92,8 @@ env:
     # We developed a mechanism that will automatically analyze the coverage of
     # your modules via the build-in coverage tool of simpletest. If you want to
     # make use of this tool, make sure that you added simpletest in the lisft of
-    # runners.
+    # runners. If you are planning to generate simpletest coverage reports, make
+    # sure that you read the GitHub section as well.
     - DRUPAL_TI_SIMPLETEST_COVERAGE="1"
     # Set to "1" if you want to enable the coverage report.
     - DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES="1"
@@ -102,6 +103,18 @@ env:
     - DRUPAL_TI_SIMPLETEST_COVERAGE_PHP_VERSION="5.4"
     # Set to "all" to generate a coverage report for every PHP version you
     # specified. Recommended is that you specify only one specific PHP version.
+
+    # GitHub settings
+    # If you are planning to generate simpletest coverage reports, you will need
+    # to add some secured data to your .travis.yml file. This can be done by
+    # executing three commands. Make sure that you have a working GitHub
+    # token. (See https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
+    # travis encrypt DRUPAL_TI_GITHUB_EMAIL="[[ YOUR GITHUB E-MAIL ADDRESS ]]"
+    # --repo [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
+    # travis encrypt DRUPAL_TI_GITHUB_NAME="[[ YOUR FULL NAME ]]" --repo
+    # [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
+    # travis encrypt DRUPAL_TI_GITHUB_TOKEN="[[ YOUR GITHUB API TOKEN ]]" --repo
+    # [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
 
   matrix:
     # [[[ SELECT ANY OR MORE OPTIONS ]]]
