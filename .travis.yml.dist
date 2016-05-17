@@ -87,6 +87,22 @@ env:
     # etc. to only output those channels.
     #- DRUPAL_TI_DEBUG_FILE_OUTPUT="selenium xvfb webserver"
 
+    # Simpletest Coverage options
+    # Currently coveralls does not support the coverage report of simpletest.
+    # We developed a mechanism that will automatically analyze the coverage of
+    # your modules via the build-in coverage tool of simpletest. If you want to
+    # make use of this tool, make sure that you added simpletest in the lisft of
+    # runners.
+    - DRUPAL_TI_SIMPLETEST_COVERAGE="1"
+    # Set to "1" if you want to enable the coverage report.
+    - DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES="1"
+    # We have a script that will automatically generate a code coverage badge.
+    # If you set this value to "1" we will create a badge while generating the
+    # simpletest coverage report.
+    - DRUPAL_TI_SIMPLETEST_COVERAGE_PHP_VERSION="5.4"
+    # Set to "all" to generate a coverage report for every PHP version you
+    # specified. Recommended is that you specify only one specific PHP version.
+
   matrix:
     # [[[ SELECT ANY OR MORE OPTIONS ]]]
     #- DRUPAL_TI_RUNNERS="phpunit"

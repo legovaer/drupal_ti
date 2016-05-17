@@ -1,0 +1,18 @@
+diff --git a/scripts/run-tests.sh b/scripts/run-tests.sh
+index a541a18..b7ac16a 100755
+--- a/scripts/run-tests.sh
++++ b/scripts/run-tests.sh
+@@ -1,5 +1,13 @@
+ <?php
+
++if ($simpletest_path = getenv("DRUPAL_TI_SIMPLETEST_PATH") == FALSE) {
++  $simpletest_path = "/usr/local/simpletest";
++}
++
++$path = "$simpletest_path/extensions/coverage";
++set_include_path(get_include_path() . PATH_SEPARATOR . $path);
++require "autocoverage.php";
++
+ /**
+  * @file
+  * This script runs Drupal tests from command line.
