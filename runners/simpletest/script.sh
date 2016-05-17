@@ -4,6 +4,10 @@
 
 set -e $DRUPAL_TI_DEBUG
 
+# Load coverage variables.
+drupal_ti_simpletest_coverage_vars
+echo "Got $DRUPAL_TI_SIMPLETEST_PATH"
+
 export ARGS=( $DRUPAL_TI_SIMPLETEST_ARGS )
 
 if [ -n "$DRUPAL_TI_SIMPLETEST_GROUP" ]

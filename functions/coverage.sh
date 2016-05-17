@@ -6,6 +6,9 @@
 # Ensure that the code coverage tools are installed.
 #
 function drupal_ti_ensure_simpletest_coverage_tools() {
+  # Load environment variables
+  drupal_ti_simpletest_coverage_vars
+
   # Don't do anything if coverage is not in scope for this build.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
@@ -15,13 +18,15 @@ function drupal_ti_ensure_simpletest_coverage_tools() {
 		return
 	fi
 
-  export DRUPAL_TI_SIMPLETEST_PATH="$TRAVIS_BUILD_DIR/lib/simpletest"
-  export DRUPAL_TI_TMP_MODULE_PATH="$HOME/$DRUPAL_TI_MODULE_NAME"
-
   cp -R $TRAVIS_BUILD_DIR $DRUPAL_TI_TMP_MODULE_PATH
 
   # In order to analyze the coverage, we need xdebug.
-  drupal_ti_apt_get install php5-xdebug
+  drupal_ti_ensure_apt_get
+  (
+		cd $DRUPAL_TI_DIST_DIR
+		wget http://ftp.us.debian.org/debian/pool/main/x/xdebug/php5-xdebug_2.2.5-1_amd64.deb
+		dpkg -x php5-xdebug_2.2.5-1_amd64.deb .
+	)
 
   # Download simpletest and include it in PHP.
   git clone https://github.com/simpletest/simpletest.git $DRUPAL_TI_SIMPLETEST_PATH
@@ -51,6 +56,9 @@ function drupal_ti_simpletest_coverage_in_scope() {
 # We need to copy the module to the module folder.
 #
 function drupal_ti_simpletest_coverage_install_module() {
+  # Load environment variables
+  drupal_ti_simpletest_coverage_vars
+
   # Don't do anything if coverage is not in scope for this build.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
@@ -64,6 +72,9 @@ function drupal_ti_simpletest_coverage_install_module() {
 # Start analyzing the simpletest coverage
 #
 function drupal_ti_simpletest_coverage_start() {
+  # Load environment variables
+  drupal_ti_simpletest_coverage_vars
+
   # Don't do anything if coverage is not in scope for this build.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
@@ -82,7 +93,7 @@ function drupal_ti_simpletest_coverage_start() {
   git apply -v 2189345-39.patch
 
   # When executing run-tests.sh we need to include the autocoverage file.
-  git apply -v $TRAVIS_BUILD_DIR/lib/include-simpletest-in-script.patch
+  git apply -v $DRUPAL_TI_SCRIPT_DIR/lib/include-simpletest-in-script.patch
 
   # Start analyzing the simpletest coverage
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php \
@@ -94,6 +105,9 @@ function drupal_ti_simpletest_coverage_start() {
 }
 
 function drupal_ti_simpletest_coverage_report() {
+  # Load environment variables
+  drupal_ti_simpletest_coverage_vars
+
   # Don't do anything if coverage is not in scope for this build.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
@@ -120,7 +134,7 @@ function drupal_ti_simpletest_coverage_report() {
   # Generate the code coverage badge if required.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES" = "1" ]
   then
-    php "$TRAVIS_BUILD_DIR/utility/generate_simpletest_coverage_badge.php"
+    php "$DRUPAL_TI_SCRIPT_DIR/utility/generate_simpletest_coverage_badge.php"
   fi
 
   # Add, commit and push all report files.
@@ -139,4 +153,10 @@ function drupal_ti_simpletest_coverage_report() {
     echo "GitHub markup: [![Coverage](https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/badge.svg)](https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/index.html)"
     echo "Image URL: https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/badge.svg"
   fi
+}
+
+function drupal_ti_simpletest_coverage_vars() {
+  export DRUPAL_TI_SIMPLETEST_PATH="$DRUPAL_TI_SCRIPT_DIR/lib/simpletest"
+  export DRUPAL_TI_TMP_MODULE_PATH="$HOME/$DRUPAL_TI_MODULE_NAME"
+  drupal_ti_simpletest_coverage_in_scope
 }

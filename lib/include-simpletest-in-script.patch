@@ -1,18 +1,23 @@
 diff --git a/scripts/run-tests.sh b/scripts/run-tests.sh
-index a541a18..b7ac16a 100755
+index 30b3aab..4625d27 100755
 --- a/scripts/run-tests.sh
 +++ b/scripts/run-tests.sh
-@@ -1,5 +1,13 @@
- <?php
-
-+if ($simpletest_path = getenv("DRUPAL_TI_SIMPLETEST_PATH") == FALSE) {
+@@ -4,6 +4,18 @@
+  * This script runs Drupal tests from command line.
+  */
+ 
++
++if (getenv("DRUPAL_TI_SIMPLETEST_PATH") == FALSE) {
 +  $simpletest_path = "/usr/local/simpletest";
++}
++else {
++  $simpletest_path = getenv("DRUPAL_TI_SIMPLETEST_PATH");
 +}
 +
 +$path = "$simpletest_path/extensions/coverage";
 +set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 +require "autocoverage.php";
 +
- /**
-  * @file
-  * This script runs Drupal tests from command line.
+ define('SIMPLETEST_SCRIPT_COLOR_PASS', 32); // Green.
+ define('SIMPLETEST_SCRIPT_COLOR_FAIL', 31); // Red.
+ define('SIMPLETEST_SCRIPT_COLOR_EXCEPTION', 33); // Brown.
