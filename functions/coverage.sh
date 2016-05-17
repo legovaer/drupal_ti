@@ -30,6 +30,7 @@ function drupal_ti_ensure_simpletest_coverage_tools() {
 
   # Download simpletest and include it in PHP.
   git clone https://github.com/simpletest/simpletest.git $DRUPAL_TI_SIMPLETEST_PATH
+  #git clone https://github.com/sebastianbergmann/php-code-coverage.git $DRUPAL_TI_SIMPLETEST_PATH
   php $DRUPAL_TI_SCRIPT_DIR/utility/add_simpletest_to_include_path.php
 
   touch "$TRAVIS_BUILD_DIR/../drupal_ti-tools-for-simpletest-coverage-installed"
@@ -118,18 +119,19 @@ function drupal_ti_simpletest_coverage_report() {
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
 
   # Ensure that the reports branch exists.
+  git clone https://github.com/$TRAVIS_REPO_SLUG.git coverage-report
+  cd coverage-report/
+  drupal_ci_git_add_credentials
   drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
 
   # Clone the reports branch and delete all the old data.
-  git clone --branch $TRAVIS_BRANCH-reports https://github.com/$TRAVIS_REPO_SLUG.git coverage-report
-  cd coverage-report/
+  git checkout $TRAVIS_BRANCH-reports
   find . ! -name '.git' -type d -exec rm -rf {} +
   cd "$DRUPAL_TI_DRUPAL_DIR"
 
   # Generate the code coverage report
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-report.php
   cd coverage-report/
-  drupal_ci_git_add_credentials
 
   # Generate the code coverage badge if required.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES" = "1" ]

@@ -32,7 +32,7 @@ function drupal_ci_git_ensure_reports_branch() {
     return
   else
     git checkout -b $BRANCH
-    git push $BRANCH
+    git push --set-upstream origin $BRANCH
   fi
 }
 
@@ -42,11 +42,10 @@ function drupal_ci_git_ensure_reports_branch() {
 function drupal_ci_git_add_credentials() {
   # Check if the current directory has a git repository.
   if [ -d ".git" ]; then
+    : ${DRUPAL_TI_GITHUB_TOKEN?"Need to set DRUPAL_TI_GITHUB_TOKEN"}
+    git config credential.helper "store --file=.git/credentials"
+    echo "https://${DRUPAL_TI_GITHUB_TOKEN}:x-oauth-basic@github.com" > .git/credentials
+  else
     echo "Error in drupal_ci_git_add_credentials(): directory is not a git repository";
-    return
   fi
-
-  : ${DRUPAL_TI_GITHUB_TOKEN?"Need to set DRUPAL_TI_GITHUB_TOKEN"}
-  git config credential.helper "store --file=.git/credentials"
-  echo "https://${DRUPAL_TI_GITHUB_TOKEN}:x-oauth-basic@github.com" > .git/credentials
 }
