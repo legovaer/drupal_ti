@@ -3,6 +3,8 @@
  * @file
  * Contains
  */
+require_once('/home/travis/.composer/vendor/autoload.php');
+
 $coverage->stop();
 
 $writer = new PHP_CodeCoverage_Report_Clover;
