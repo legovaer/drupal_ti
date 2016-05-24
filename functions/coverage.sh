@@ -108,22 +108,6 @@ function drupal_ti_simpletest_coverage_start() {
 }
 
 function drupal_ti_simpletest_coverage_report() {
-  echo "Echoing travis build dir"
-  cd "$TRAVIS_BUILD_DIR"
-  ls -ls $TRAVIS_BUILD_DIR
-  echo "Echoing Homedir"
-  echo "$HOME"
-  ls -ls $HOME
-  echo "Echoing DRUPAL_TI_DRUPAL_DIR"
-  echo "$DRUPAL_TI_DRUPAL_DIR"
-  ls -ls $DRUPAL_TI_DRUPAL_DIR
-  echo "Echoing /home/travis/build/legovaer/"
-  ls -ls /home/travis/build/legovaer
-  echo "Echoing /home/travis/build/legovaer/drupal-7"
-  ls -ls /home/travis/build/legovaer/drupal-7
-  echo "Echoing /home/travis/build/legovaer/drupal-7/drupal"
-  ls -ls /home/travis/build/legovaer/drupal-7/drupal
-
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
 
@@ -131,8 +115,7 @@ function drupal_ti_simpletest_coverage_report() {
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
-  cd "$TRAVIS_BUILD_DIR/../drupal-7/drupal"
-  ls -ls
+  cd "$DRUPAL_TI_DRUPAL_DIR"
 
   # Stop the coveragy analyzer tool.
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
@@ -140,14 +123,15 @@ function drupal_ti_simpletest_coverage_report() {
   # Ensure that the reports branch exists.
   git clone https://github.com/$TRAVIS_REPO_SLUG.git coverage-report
   cd coverage-report/
-  ls -ls
   drupal_ci_git_add_credentials
   drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
 
   # Clone the reports branch and delete all the old data.
   git checkout $TRAVIS_BRANCH-reports
+  ls -ls
   find . ! -name '.git' ! -name '.' ! -name '..' -type d -exec rm -rf {} +
-  cd "$TRAVIS_BUILD_DIR/../drupal-7/drupal"
+    ls -ls
+  cd "$DRUPAL_TI_DRUPAL_DIR"
   ls -ls
   # Generate the code coverage report
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-report.php
