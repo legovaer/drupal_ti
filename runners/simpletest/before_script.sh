@@ -19,9 +19,6 @@ cd "$DRUPAL_TI_DRUPAL_DIR"
 mkdir -p "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
 cd "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
 
-# Start the simpletest coverage tool
-drupal_ti_simpletest_coverage_start
-
 # Enable simpletest module.
 cd "$DRUPAL_TI_DRUPAL_DIR"
 drush --yes en simpletest
@@ -32,3 +29,6 @@ drupal_ti_ensure_module
 # Clear caches and run a web server.
 drupal_ti_clear_caches
 drupal_ti_run_server
+
+# Start the simpletest coverage tool
+drupal_ti_simpletest_coverage_start

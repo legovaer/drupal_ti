@@ -96,6 +96,11 @@ function drupal_ti_simpletest_coverage_start() {
   # When executing run-tests.sh we need to include the autocoverage file.
   git apply -v $DRUPAL_TI_SCRIPT_DIR/lib/include-simpletest-in-script.patch
 
+  echo "executing coverage report: $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php"
+  ls -ls $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin
+  echo "--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$"
+  ls -ls $DRUPAL_TI_MODULES_PATH
+  ls -ls $DRUPAL_TI_MODULE_NAME
   # Start analyzing the simpletest coverage
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$' \
