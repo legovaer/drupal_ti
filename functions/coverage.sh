@@ -97,11 +97,6 @@ function drupal_ti_simpletest_coverage_start() {
   # When executing run-tests.sh we need to include the autocoverage file.
   git apply -v $DRUPAL_TI_SCRIPT_DIR/lib/include-simpletest-in-script.patch
 
-  echo "executing coverage report: $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php"
-  ls -ls $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin
-  echo "--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$"
-  ls -ls $DRUPAL_TI_MODULES_PATH
-
   cd "$DRUPAL_TI_DRUPAL_DIR"
   # Start analyzing the simpletest coverage
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php
@@ -113,6 +108,22 @@ function drupal_ti_simpletest_coverage_start() {
 }
 
 function drupal_ti_simpletest_coverage_report() {
+  echo "Echoing travis build dir"
+  cd "$TRAVIS_BUILD_DIR"
+  ls -ls $TRAVIS_BUILD_DIR
+  echo "Echoing Homedir"
+  echo "$HOME"
+  ls -ls $HOME
+  echo "Echoing DRUPAL_TI_DRUPAL_DIR"
+  echo "$DRUPAL_TI_DRUPAL_DIR"
+  ls -ls $DRUPAL_TI_DRUPAL_DIR
+  echo "Echoing /home/travis/build/legovaer/"
+  ls -ls /home/travis/build/legovaer
+  echo "Echoing /home/travis/build/legovaer/drupal-7"
+  ls -ls /home/travis/build/legovaer/drupal-7
+  echo "Echoing /home/travis/build/legovaer/drupal-7/drupal"
+  ls -ls /home/travis/build/legovaer/drupal-7/drupal
+
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
 
@@ -121,6 +132,7 @@ function drupal_ti_simpletest_coverage_report() {
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
   cd "$TRAVIS_BUILD_DIR/../drupal-7/drupal"
+  ls -ls
 
   # Stop the coveragy analyzer tool.
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
