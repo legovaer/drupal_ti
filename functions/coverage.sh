@@ -121,16 +121,14 @@ function drupal_ti_simpletest_coverage_report() {
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
 
   # Ensure that the reports branch exists.
-  git clone https://github.com/$TRAVIS_REPO_SLUG.git coverage-report
   cd coverage-report/
+  git init
+  git remote add origin https://github.com/$TRAVIS_REPO_SLUG.git
   drupal_ci_git_add_credentials
   drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
 
   # Clone the reports branch and delete all the old data.
   git checkout $TRAVIS_BRANCH-reports
-  ls -ls
-  find . ! -name '.git' -type d -exec rm -rf {} +
-    ls -ls
   cd "$DRUPAL_TI_DRUPAL_DIR"
   ls -ls
   # Generate the code coverage report
@@ -145,9 +143,9 @@ function drupal_ti_simpletest_coverage_report() {
   fi
 
   # Add, commit and push all report files.
-  git add .
+  git add *
   git commit -m "Added report for $TRAVIS_JOB_NUMBER"
-  git push -f
+  git push
   git tag $TRAVIS_JOB_NUMBER
   git push --tags
 
