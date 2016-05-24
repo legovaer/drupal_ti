@@ -128,6 +128,7 @@ function drupal_ti_simpletest_coverage_report() {
   # Ensure that the reports branch exists.
   git clone https://github.com/$TRAVIS_REPO_SLUG.git coverage-report
   cd coverage-report/
+  ls -ls
   drupal_ci_git_add_credentials
   drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
 
@@ -135,10 +136,11 @@ function drupal_ti_simpletest_coverage_report() {
   git checkout $TRAVIS_BRANCH-reports
   find . ! -name '.git' ! -name '.' ! -name '..' -type d -exec rm -rf {} +
   cd "$DRUPAL_TI_DRUPAL_DIR"
-
+  ls -ls
   # Generate the code coverage report
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-report.php
   cd coverage-report/
+  ls -ls
 
   # Generate the code coverage badge if required.
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES" = "1" ]
