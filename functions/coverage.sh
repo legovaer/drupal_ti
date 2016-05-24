@@ -65,6 +65,7 @@ function drupal_ti_simpletest_coverage_install_module() {
 
   drush pm-uninstall $DRUPAL_TI_MODULE_NAME -y
   echo "CPing $DRUPAL_TI_TMP_MODULE_PATH to $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
+  rm -rf "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   cp -R "$DRUPAL_TI_TMP_MODULE_PATH" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   drush en $DRUPAL_TI_MODULE_NAME -y
 }
@@ -100,10 +101,10 @@ function drupal_ti_simpletest_coverage_start() {
   ls -ls $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin
   echo "--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$"
   ls -ls $DRUPAL_TI_MODULES_PATH
-  ls -ls $DRUPAL_TI_MODULE_NAME
+
+  cd "$DRUPAL_TI_DRUPAL_DIR"
   # Start analyzing the simpletest coverage
-  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php \
-    '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$' \
+  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$' \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.inc$' \
     '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.module$' \
     '--exclude=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/tests/.*'
