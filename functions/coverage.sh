@@ -129,8 +129,7 @@ function drupal_ti_simpletest_coverage_report() {
   # Clone the reports branch and delete all the old data.
   git checkout $TRAVIS_BRANCH-reports
   ls -ls
-  find . ! -name '.git' -type d -delete
-  #find . ! -name '.git' ! -name '.' ! -name '..' -type d -exec rm -rf {} +
+  find . ! -name '.git' -type d -exec rm -rf {} +
     ls -ls
   cd "$DRUPAL_TI_DRUPAL_DIR"
   ls -ls
