@@ -120,7 +120,7 @@ function drupal_ti_simpletest_coverage_report() {
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
-  cd "$DRUPAL_TI_DRUPAL_DIR"
+  cd "$TRAVIS_BUILD_DIR/../drupal-7/drupal"
 
   # Stop the coveragy analyzer tool.
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-close.php
@@ -135,7 +135,7 @@ function drupal_ti_simpletest_coverage_report() {
   # Clone the reports branch and delete all the old data.
   git checkout $TRAVIS_BRANCH-reports
   find . ! -name '.git' ! -name '.' ! -name '..' -type d -exec rm -rf {} +
-  cd "$DRUPAL_TI_DRUPAL_DIR"
+  cd "$TRAVIS_BUILD_DIR/../drupal-7/drupal"
   ls -ls
   # Generate the code coverage report
   php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-report.php

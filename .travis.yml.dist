@@ -109,11 +109,11 @@ env:
     # to add some secured data to your .travis.yml file. This can be done by
     # executing three commands. Make sure that you have a working GitHub
     # token. (See https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
-    # travis encrypt DRUPAL_TI_GITHUB_EMAIL="[[ YOUR GITHUB E-MAIL ADDRESS ]]"
+    # travis encrypt "DRUPAL_TI_GITHUB_EMAIL=[[ YOUR GITHUB E-MAIL ADDRESS ]]"
     # --repo [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
-    # travis encrypt DRUPAL_TI_GITHUB_NAME="[[ YOUR FULL NAME ]]" --repo
+    # travis encrypt "DRUPAL_TI_GITHUB_NAME=[[ YOUR FULL NAME ]]" --repo
     # [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
-    # travis encrypt DRUPAL_TI_GITHUB_TOKEN="[[ YOUR GITHUB API TOKEN ]]" --repo
+    # travis encrypt "DRUPAL_TI_GITHUB_TOKEN=[[ YOUR GITHUB API TOKEN ]]" --repo
     # [[YOUR GITHUB USERNAME]]/[[YOUR REPOSITORY]] --add
 
   matrix:
