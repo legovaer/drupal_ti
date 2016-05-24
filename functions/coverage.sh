@@ -104,10 +104,11 @@ function drupal_ti_simpletest_coverage_start() {
 
   cd "$DRUPAL_TI_DRUPAL_DIR"
   # Start analyzing the simpletest coverage
-  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$' \
-    '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.inc$' \
-    '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.module$' \
-    '--exclude=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/tests/.*'
+  php $DRUPAL_TI_SIMPLETEST_PATH/extensions/coverage/bin/php-coverage-open.php
+  #'--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.php$'
+#    '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.inc$' \
+#    '--include=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/.*\.module$' \
+#    '--exclude=$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/tests/.*'
 
 }
 

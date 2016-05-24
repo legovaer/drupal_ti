@@ -31,5 +31,5 @@ drupal_ti_clear_caches
 drupal_ti_run_server
 
 # Start the simpletest coverage tool
-#drupal_ti_simpletest_coverage_start
-php $DRUPAL_TI_SCRIPT_DIR/utility/start_php_code_coverage.php
+drupal_ti_simpletest_coverage_start
+#php $DRUPAL_TI_SCRIPT_DIR/utility/start_php_code_coverage.php
