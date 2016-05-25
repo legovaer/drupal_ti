@@ -17,7 +17,9 @@ fi
 
 
 cd "$DRUPAL_TI_DRUPAL_DIR"
-{ php "$DRUPAL_TI_SIMPLETEST_FILE" --php $(which php) "${ARGS[@]}" || echo "1 fails"; } | tee /tmp/simpletest-result.txt
+phpcov execute $DRUPAL_TI_SCRIPT_DIR/utility/launch_test.php --clover /tmp/coverage.xml
+cat /tmp/coverage.xml
+#{ php "$DRUPAL_TI_SIMPLETEST_FILE" --php $(which php) "${ARGS[@]}" || echo "1 fails"; } | tee /tmp/simpletest-result.txt
 cat $DRUPAL_TI_SIMPLETEST_FILE
 egrep -i "([1-9]+ fail[s]?\s)|(Fatal error)|([1-9]+ exception[s]?\s)" /tmp/simpletest-result.txt && exit 1
 exit 0

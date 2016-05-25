@@ -32,3 +32,5 @@ drupal_ti_run_server
 
 # Start the simpletest coverage tool
 drupal_ti_simpletest_coverage_start
+
+composer global require 'phpunit/phpcov=*'
