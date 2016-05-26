@@ -31,7 +31,7 @@ function drupal_ci_git_ensure_reports_branch() {
   if [[ $(git ls-remote --heads https://github.com/$TRAVIS_REPO_SLUG.git $BRANCH | wc -l) == *"1"* ]]; then
     echo "$BRANCH exists, deleting the remote branch and re-creating."
     git push origin --delete $BRANCH
-    git branch -d $BRANCH
+    git branch -D $BRANCH
   fi
     git checkout -b $BRANCH
     git push --set-upstream origin $BRANCH
