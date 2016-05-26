@@ -29,7 +29,8 @@ function drupal_ci_git_ensure_reports_branch() {
   BRANCH=$1
   git fetch
   if [[ $(git ls-remote --heads https://github.com/$TRAVIS_REPO_SLUG.git $BRANCH | wc -l) == *"1"* ]]; then
-    echo "$BRANCH exists, exiting"
+    echo "$BRANCH exists, merging changes"
+    git merge -s ours $BRANCH
     return
   else
     git checkout -b $BRANCH
