@@ -34,7 +34,6 @@ function drupal_ci_git_ensure_reports_branch() {
     git branch -D $BRANCH
   fi
     git checkout -b $BRANCH
-    git push --set-upstream origin $BRANCH
 }
 
 #
