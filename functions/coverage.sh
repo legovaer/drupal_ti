@@ -23,14 +23,24 @@ function drupal_ti_simpletest_coverage_install_module() {
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
 
-  # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
-
   drush pm-uninstall $DRUPAL_TI_MODULE_NAME -y
   echo "CPing $DRUPAL_TI_TMP_MODULE_PATH to $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   rm -rf "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   cp -R "$DRUPAL_TI_TMP_MODULE_PATH" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
   drush en $DRUPAL_TI_MODULE_NAME -y
+}
+
+function drupal_ti_coverage_prepare() {
+  # Load environment variables
+  drupal_ti_simpletest_coverage_vars
+  cp -R $TRAVIS_BUILD_DIR $DRUPAL_TI_TMP_MODULE_PATH
+
+  drupal_ti_ensure_apt_get
+  (
+    cd $DRUPAL_TI_DIST_DIR
+    wget http://ftp.us.debian.org/debian/pool/main/x/xdebug/php5-xdebug_2.2.5-1_amd64.deb
+    dpkg -x php5-xdebug_2.2.5-1_amd64.deb .
+  )
 }
 
 function drupal_ti_simpletest_coverage_report() {
