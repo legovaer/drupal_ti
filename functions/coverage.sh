@@ -112,7 +112,7 @@ function drupal_ti_simpletest_coverage_report() {
   drupal_ti_simpletest_coverage_vars
 
   # Don't do anything if coverage is not in scope for this build.
-  if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
+  #if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_IN_SCOPE" = "0" ]; then return; fi
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
   cd "$DRUPAL_TI_DRUPAL_DIR"
