@@ -17,7 +17,6 @@ fi
 
 
 cd "$DRUPAL_TI_DRUPAL_DIR"
-phpcov execute $DRUPAL_TI_SCRIPT_DIR/utility/launch-simpletest.sh bash --clover /tmp/coverage.xml
-cat /tmp/coverage.xml
+phpcov execute $DRUPAL_TI_SCRIPT_DIR/utility/launch-simpletest.sh bash --configuration $DRUPAL_TI_PHPCOV_XML --html $DRUPAL_TI_DRUPAL_DIR/coverage-report
 
 exit 0
