@@ -51,6 +51,11 @@ function drupal_ti_simpletest_coverage_report() {
   cd "$DRUPAL_TI_DRUPAL_DIR"
 
   # Ensure that the reports branch exists.
+  if [ ! -d "coverage-report/" ]; then
+    echo "Coverage report folder doesn't exist. Exiting."
+    return
+  fi
+
   cd coverage-report/
   git init
   git remote add origin https://github.com/$TRAVIS_REPO_SLUG.git
