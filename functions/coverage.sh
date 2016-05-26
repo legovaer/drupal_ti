@@ -68,6 +68,7 @@ function drupal_ti_simpletest_coverage_report() {
 
   # Add, commit and push all report files.
   git add *
+  git checkout $TRAVIS_BRANCH-reports
   git commit -m "Added report for $TRAVIS_JOB_NUMBER"
   git push
   git tag $TRAVIS_JOB_NUMBER
