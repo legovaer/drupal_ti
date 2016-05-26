@@ -30,7 +30,8 @@ drupal_ti_ensure_module
 drupal_ti_clear_caches
 drupal_ti_run_server
 
-# Start the simpletest coverage tool
-drupal_ti_simpletest_coverage_start
+# Ensure that phpcov has been installed.
+drupal_ti_ensure_phpcov
 
-composer global require 'phpunit/phpcov=*'
+# Make sure that we aren't using a symbolic link of the module.
+drupal_ti_simpletest_coverage_install_module
