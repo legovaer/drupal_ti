@@ -17,24 +17,23 @@ function drupal_ti_ensure_phpcov() {
   composer global require legovaer/phpcov-runner=dev-master
 
   cd "$DRUPAL_TI_DRUPAL_DIR"
-  echo "CORE BRANCH: $DRUPAL_TI_CORE_BRANCH"
   if [ -z "$DRUPAL_TI_CORE_BRANCH" ] || [ "$DRUPAL_TI_CORE_BRANCH" = "7.x" ];
   then
     wget https://www.drupal.org/files/issues/2189345-39.patch
-    wget https://gist.githubusercontent.com/legovaer/70bfcbed6cca026817fc5f22cceb9bec/raw/9d54a0842fabcc9f1b2f1ebb53cf3e05013736a6/add-autocoverage-7x.patch
+    wget https://gist.githubusercontent.com/legovaer/70bfcbed6cca026817fc5f22cceb9bec/raw/c52f687249d1d061488c66a6f53ed360e23f3679/add-autocoverage-7x.patch
     git apply -v 2189345-39.patch
     git apply -v add-autocoverage-7x.patch
   fi
 
   if [ "$DRUPAL_TI_CORE_BRANCH" = "8.0.x" ];
   then
-    wget https://gist.githubusercontent.com/legovaer/c9008fc282058a06924869eab8c19020/raw/38ef7c752da57eebd52fd6d4f864a4c4df517eb8/fix-simpletest-d8.patch
+    wget https://gist.githubusercontent.com/legovaer/22c73d31ca32d1f172af47b15f29b7de/raw/550db3c7627479f807d07ab536f1ef4a517c7d22/add-autocoverage-80x.patch
     git apply -v add-autocoverage-80x.patch
   fi
 
   if [ "$DRUPAL_TI_CORE_BRANCH" = "8.1.x" ];
   then
-    wget https://gist.githubusercontent.com/legovaer/6e3bd63340cb48eed4e556303b5b97b9/raw/8f0a3abf95c91d552807351e8b1bdeca8017c48b/fix-simpletest-d81.patch
+    wget https://gist.githubusercontent.com/legovaer/352dfd62596a9bed7e39a8b849f62675/raw/826a265d56171608e4d1daf54487bd34957d98c8/add-autocoverage-81x.patch
     git apply -v add-autocoverage-81x.patch
   fi
 
