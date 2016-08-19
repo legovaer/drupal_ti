@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true"
+         stopOnFailure="false"
+         syntaxCheck="false">
+
+<testsuites>
+       <testsuite name="Drupal Coverage">
+           <directory suffix="Test.php">Test</directory>
+       </testsuite>
+    </testsuites>
+
+    <filter>
+         <whitelist>
+             <directory suffix=".php">.</directory>
+             <directory suffix=".inc">.</directory>
+             <directory suffix=".module">.</directory>
+             <exclude>
+                 <directory>drupal_ti</directory>
+                 <directory>tests</directory>
+             </exclude>
+         </whitelist>
+    </filter>
+</phpunit>

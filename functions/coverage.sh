@@ -83,7 +83,7 @@ function drupal_ti_simpletest_coverage_report() {
   drupal_ti_simpletest_coverage_vars
 
   phpcovrunner stop --html $DRUPAL_TI_DRUPAL_DIR/coverage-report \
-  --configuration $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME/phpcov.xml.dist
+  --configuration $DRUPAL_TI_SCRIPT_DIR/utility/phpcov.xml.dist
 
   # DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES
   cd "$DRUPAL_TI_DRUPAL_DIR"
