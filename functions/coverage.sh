@@ -19,9 +19,9 @@ function drupal_ti_ensure_phpcov() {
   cd "$DRUPAL_TI_DRUPAL_DIR"
   if [ -z "$DRUPAL_TI_CORE_BRANCH" ] || [ "$DRUPAL_TI_CORE_BRANCH" = "7.x" ];
   then
-    wget https://www.drupal.org/files/issues/2189345-39.patch
+    #wget https://www.drupal.org/files/issues/2189345-39.patch
     wget https://gist.githubusercontent.com/legovaer/70bfcbed6cca026817fc5f22cceb9bec/raw/c52f687249d1d061488c66a6f53ed360e23f3679/add-autocoverage-7x.patch
-    git apply -v 2189345-39.patch
+    #git apply -v 2189345-39.patch
     git apply -v add-autocoverage-7x.patch
   fi
 
