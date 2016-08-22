@@ -97,7 +97,7 @@ function drupal_ti_simpletest_coverage_report() {
   git init
   git remote add origin https://github.com/$TRAVIS_REPO_SLUG.git
   drupal_ci_git_add_credentials
-  drupal_ci_git_ensure_reports_branch $TRAVIS_BRANCH-reports
+  drupal_ci_git_ensure_reports_branch $DRUPAL_TI_DESTINATION_BRANCH
 
   # Clone the reports branch and delete all the old data.
   ls -ls
@@ -116,13 +116,13 @@ function drupal_ti_simpletest_coverage_report() {
   git push --tags
 
   echo "SIMPLETEST CODE COVERAGE COMPLETED!"
-  echo "The simpletest coverage report can be found at https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/index.html"
+  echo "The simpletest coverage report can be found at https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/index.html"
 
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES" = "1" ]
   then
     echo "A code coverage badge has been generated:"
-    echo "GitHub markup: [![Coverage](https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/badge.svg)](https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/index.html)"
-    echo "Image URL: https://rawgit.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH-reports/badge.svg"
+    echo "GitHub markup: [![Coverage](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/badge.svg)](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/index.html)"
+    echo "Image URL: https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/badge.svg"
   fi
 }
 
