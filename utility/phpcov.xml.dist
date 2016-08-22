@@ -6,7 +6,7 @@
 
 <testsuites>
        <testsuite name="Drupal Coverage">
-           <directory suffix="Test.php">Test</directory>
+           <directory>/home/travis/build/legovaer/drupal-7/drupal/sites/all/modules</directory>
        </testsuite>
     </testsuites>
 
@@ -22,5 +22,8 @@
                  <directory>tests</directory>
              </exclude>
          </whitelist>
+         <blacklist>
+            <directory>/home/travis/build/legovaer/drupal-7/drupal/sites/all/modules/*/tests</directory>
+         </blacklist>
     </filter>
 </phpunit>
