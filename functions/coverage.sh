@@ -49,10 +49,10 @@ function drupal_ti_simpletest_coverage_install_module() {
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
 
-  drush pm-uninstall $DRUPAL_TI_MODULE_NAME -y
-  rm -rf "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
-  cp -R "$DRUPAL_TI_TMP_MODULE_PATH" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
-  drush en $DRUPAL_TI_MODULE_NAME -y
+  #rm -rf "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
+  mv "$TRAVIS_BUILD_DIR/$DRUPAL_TI_MODULE_NAME" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
+  ls $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH
+  #drush en $DRUPAL_TI_MODULE_NAME -y
 }
 
 function drupal_ti_coverage_prepare() {
@@ -60,7 +60,7 @@ function drupal_ti_coverage_prepare() {
 
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
-  cp -R $TRAVIS_BUILD_DIR $DRUPAL_TI_TMP_MODULE_PATH
+  #cp -R $TRAVIS_BUILD_DIR/$DRUPAL_TI_MODULE_NAME $DRUPAL_TI_TMP_MODULE_PATH
 
   drupal_ti_ensure_apt_get
   (
@@ -72,7 +72,8 @@ function drupal_ti_coverage_prepare() {
 
 function drupal_ti_simpletest_coverage_start() {
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE" != "1" ] ; then return ; fi
-
+  echo "Pwd before start"
+  pwd
   phpcovrunner start
 }
 
@@ -81,6 +82,13 @@ function drupal_ti_simpletest_coverage_report() {
 
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
+
+  cd $DRUPAL_TI_DRUPAL_DIR
+
+  match='<!DOCTYPE root ['
+  insert="<!ENTITY path \"$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME\">"
+  sed -n -i "p;3a $insert" $DRUPAL_TI_SCRIPT_DIR/utility/phpcov.xml.dist
+
 
   phpcovrunner stop --html $DRUPAL_TI_DRUPAL_DIR/coverage-report \
   --configuration $DRUPAL_TI_SCRIPT_DIR/utility/phpcov.xml.dist
@@ -97,7 +105,7 @@ function drupal_ti_simpletest_coverage_report() {
   git init
   git remote add origin https://github.com/$TRAVIS_REPO_SLUG.git
   drupal_ci_git_add_credentials
-  drupal_ci_git_ensure_reports_branch $DRUPAL_TI_DESTINATION_BRANCH
+  drupal_ci_git_ensure_reports_branch $DRUPAL_TI_DESTINATION_BRANCH/$TRAVIS_BUILD_NUMBER
 
   # Clone the reports branch and delete all the old data.
   ls -ls
@@ -116,13 +124,13 @@ function drupal_ti_simpletest_coverage_report() {
   git push --tags
 
   echo "SIMPLETEST CODE COVERAGE COMPLETED!"
-  echo "The simpletest coverage report can be found at https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/index.html"
+  echo "The simpletest coverage report can be found at https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/$TRAVIS_BUILD_NUMBER/index.html"
 
   if [ "$DRUPAL_TI_SIMPLETEST_COVERAGE_GENERATE_BADGES" = "1" ]
   then
     echo "A code coverage badge has been generated:"
-    echo "GitHub markup: [![Coverage](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/badge.svg)](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/index.html)"
-    echo "Image URL: https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/badge.svg"
+    echo "GitHub markup: [![Coverage](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/$TRAVIS_BUILD_NUMBER/badge.svg)](https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/$TRAVIS_BUILD_NUMBER/index.html)"
+    echo "Image URL: https://rawgit.com/$TRAVIS_REPO_SLUG/$DRUPAL_TI_DESTINATION_BRANCH/$TRAVIS_BUILD_NUMBER/badge.svg"
   fi
 }
 

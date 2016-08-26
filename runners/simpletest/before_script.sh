@@ -26,12 +26,12 @@ cd "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
 cd "$DRUPAL_TI_DRUPAL_DIR"
 drush --yes en simpletest
 
+# Make sure that we aren't using a symbolic link of the module.
+drupal_ti_simpletest_coverage_install_module
+
 # Ensure the module is linked into the code base and enabled.
 drupal_ti_ensure_module
 
 # Clear caches and run a web server.
 drupal_ti_clear_caches
 drupal_ti_run_server
-
-# Make sure that we aren't using a symbolic link of the module.
-drupal_ti_simpletest_coverage_install_module
