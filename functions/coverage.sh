@@ -50,9 +50,13 @@ function drupal_ti_simpletest_coverage_install_module() {
   drupal_ti_simpletest_coverage_vars
 
   #rm -rf "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME"
-  mv "$TRAVIS_BUILD_DIR/$DRUPAL_TI_MODULE_NAME" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
+  if [ $DRUPAL_TI_ANALYSE_CORE == 0 ]; then
+    # Make sure that we aren't using a symbolic link of the module.
+    mv "$TRAVIS_BUILD_DIR/$DRUPAL_TI_MODULE_NAME" "$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH"
+  else
+    drush en $DRUPAL_TI_MODULE_NAME -y
+  fi
   ls $DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH
-  #drush en $DRUPAL_TI_MODULE_NAME -y
 }
 
 function drupal_ti_coverage_prepare() {
@@ -60,7 +64,6 @@ function drupal_ti_coverage_prepare() {
 
   # Load environment variables
   drupal_ti_simpletest_coverage_vars
-  #cp -R $TRAVIS_BUILD_DIR/$DRUPAL_TI_MODULE_NAME $DRUPAL_TI_TMP_MODULE_PATH
 
   drupal_ti_ensure_apt_get
   (
@@ -86,9 +89,13 @@ function drupal_ti_simpletest_coverage_report() {
   cd $DRUPAL_TI_DRUPAL_DIR
 
   match='<!DOCTYPE root ['
-  insert="<!ENTITY path \"$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME\">"
+  if [ $DRUPAL_TI_ANALYSE_CORE == 1 ]; then
+    insert="<!ENTITY path \"$DRUPAL_TI_DRUPAL_DIR/modules/$DRUPAL_TI_MODULE_NAME\">"
+    echo "$DRUPAL_TI_DRUPAL_DIR/modules/$DRUPAL_TI_MODULE_NAME"
+  else
+    insert="<!ENTITY path \"$DRUPAL_TI_DRUPAL_DIR/$DRUPAL_TI_MODULES_PATH/$DRUPAL_TI_MODULE_NAME\">"
+  fi
   sed -n -i "p;3a $insert" $DRUPAL_TI_SCRIPT_DIR/utility/phpcov.xml.dist
-
 
   phpcovrunner stop --html $DRUPAL_TI_DRUPAL_DIR/coverage-report \
   --configuration $DRUPAL_TI_SCRIPT_DIR/utility/phpcov.xml.dist
